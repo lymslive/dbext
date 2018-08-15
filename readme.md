@@ -1,6 +1,6 @@
 # Database Access from Vim Buffer
 
-This is tailor plugin based on `dbext`, forked from the version 2600 at:
+This is tailor plugin based on `dbext`, "forked" from the version 2600 at:
 [https://www.vim.org/scripts/script.php?script_id=356](https://www.vim.org/scripts/script.php?script_id=356)
 While the respository in github seams to stop update sice version 2300 at:
 [https://github.com/vim-scripts/dbext.vim](https://github.com/vim-scripts/dbext.vim)
@@ -9,7 +9,7 @@ The origin dbext is a global and large plugin, supported to excute SQL from
 each buffer or ex command line (via many dbms). It is not only for edting
 `.sql` files, but for any program language on the project that revolves
 databse operation, help to lookup table definition, preview data in table,
-test SQL statements, when working on the host language. 
+test SQL statements when working on the host language. 
 See [readme23.md](reademe23.md) and `:help dbext`.
 
 I rearrange some file directory structure, make it fitable to load dynamically
@@ -23,7 +23,7 @@ connection to databse with DBI (a perl module).
 
 ### Common manual instruction
 At the least manual case, download the subdirectory `autoload`, and put it
-under `~/.vim` or any other path in you `&rtp`. The use the command below to
+under `~/.vim` or any other path in you `&rtp`. Then use the command below to
 load this plugin to play with all the funny, back compatible with `dbext` :
 
 ```vim
@@ -50,8 +50,8 @@ of course can add it to `vimrc`. The subdirectory name of first level under
 `pack/` is arbitrary, so git clone to `pack/vim-scripts/opt` or
 `pack/dfishburn/opt` are also ok. But the second level name is matters. If
 clone to `pack/*/start` directory, the plugin will automatically load when vim
-is starting, and ne need `:packadd dbext` any more. It depends on users'
-taste, but I think many large plugin is not needed in each vim session, and
+is starting, and no need `:packadd dbext` any more. It depends on users'
+taste, but I think many large plugin is not needed in every vim session, and
 prefer to `opt/`. (see `:help packadd`)
 
 ### Advanced plugin manager install
@@ -82,7 +82,7 @@ You can simplly put such config in you `vimrc`. Or, one of the following methods
 
 ### Dynamic dbext#config#load()
 
-If you prefer to dynamically load `dbext`, it is best to put the related
+If you prefer to dynamically load `dbext`, it is best to put the relative
 config in `~/.vim/autoload/dbext/config.vim` and define a `dbext#config#load()`
 function(just remain empty is also fine) in that file. As example:
 
@@ -98,8 +98,8 @@ endfunction
 ```
 
 Note that `dbext/config.vim` is not necessary in the same directory as the git
-cloned respository. Actually it is recommended put in the first (or very front) 
-of your `&rtp` path, and so in linux `~/.vim` is good place.
+cloned respository. Actually it is recommended to put in the first (or very front) 
+of your `&rtp` path, and so in linux `~/.vim` is a good place.
 
 Note also that `dbext/config.vim` is designed for dynamic load behavior. If
 your plan is load `dbext` with vim starting, obviously it is better to copy
@@ -109,7 +109,7 @@ dbext#config#load()` in `vimrc`.
 ### Config in local project
 
 Since only some special (may complex) project need to mix programming with
-databse, you can put config for `dbext` in the local project setting. For
+databse, you can put the config for `dbext` in the local project setting. For
 example in `Sessionx.vim` file, if you `:mksession` on the project root
 directory and save a `Session.vim` file. When vim load a session, it will
 source another `{SessionName}x.vim` file if exsisted.
@@ -132,7 +132,7 @@ $ mv plugin/dbext.vim autoload/dbext/dbext.vim
 ```
 
 The origin `plugin/dbext.vim` is replaced a very simple one to fit dynamic
-load behavior. As below:
+load behavior, Something like below:
 
 ```vim
 call dbext#plugin#load()
