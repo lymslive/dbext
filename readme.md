@@ -59,6 +59,18 @@ This plugin is also suitable for many other famous plugin manager. If you have
 been using any such tool, just go. But it may not be simple to support dynamic
 load as the builtin `:packadd`.
 
+If you, say typically install in `~/.vim/budle` by other plugin manager, and
+you donnot want to load `dbext` very time starting vim, then you can put this
+command in `vimrc` :
+
+```vim
+let g:loaded_dbext = 1
+```
+
+This will suppress loading `dbext` futher, avoid to import any maps, commands
+and variables from `dbext` into you vim environment. Then time comes that you
+want to do some funny thing with databse, excute `:call dbext#plugin#load()` .
+
 ## Configure dbext
 
 Before work well, `dbext` need databse connection information. It is suggested
