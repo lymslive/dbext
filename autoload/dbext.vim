@@ -298,8 +298,9 @@ function! dbext#DB_buildLists()
     call add(s:all_params_mv, 'DB2_db2cmd_bin')
     call add(s:all_params_mv, 'DB2_db2cmd_cmd_options')
 
-    " Add 1 additional MySQL special cases
+    " Add 2 additional MySQL special cases
     call add(s:all_params_mv, 'MYSQL_version')
+    call add(s:all_params_mv, 'MYSQL_desc_table_full')
 
 
     " Any predefined global connection profiles in the users vimrc
@@ -968,6 +969,7 @@ function! s:DB_getDefault(name)
     elseif a:name ==# "MYSQL_extra"             |return (exists("g:dbext_default_MYSQL_extra")?g:dbext_default_MYSQL_extra.'':'-t')
     elseif a:name ==# "MYSQL_SQL_Top_pat"       |return (exists("g:dbext_default_MYSQL_SQL_Top_pat")?g:dbext_default_MYSQL_SQL_Top_pat.'':'\(.*\)')
     elseif a:name ==# "MYSQL_SQL_Top_sub"       |return (exists("g:dbext_default_MYSQL_SQL_Top_sub")?g:dbext_default_MYSQL_SQL_Top_sub.'':'\1 LIMIT @dbext_topX ')
+    elseif a:name ==# "MYSQL_desc_table_full"   |return (exists("g:dbext_default_MYSQL_desc_table_full")?g:dbext_default_MYSQL_desc_table_full.'':'0')
     elseif a:name ==# "FIREBIRD_bin"            |return (exists("g:dbext_default_FIREBIRD_bin")?g:dbext_default_FIREBIRD_bin.'':'isql')
     elseif a:name ==# "FIREBIRD_cmd_options"    |return (exists("g:dbext_default_FIREBIRD_cmd_options")?g:dbext_default_FIREBIRD_cmd_options.'':'')
     elseif a:name ==# "FIREBIRD_cmd_terminator" |return (exists("g:dbext_default_FIREBIRD_cmd_terminator")?g:dbext_default_FIREBIRD_cmd_terminator.'':';')
@@ -3228,6 +3230,9 @@ function! s:DB_MYSQL_execSql(str)
 endfunction
 
 function! s:DB_MYSQL_describeTable(table_name)
+    if s:DB_get("MYSQL_desc_table_full")
+        return s:DB_MYSQL_execSql("show full columns from ".a:table_name)
+    endif
     return s:DB_MYSQL_execSql("describe ".a:table_name)
 endfunction
 
