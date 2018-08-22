@@ -1185,6 +1185,8 @@ Version 2.00 (Jul 11, 2004)
         let g:dbext_default_buffer_lines = 5 (default)
 <If you want each buffer to have its OWN Result buffer, you can define: >
         let g:dbext_default_use_sep_result_buffer = 1 (default=0)
+<If you want to keep in result buffer after SQL execution, you can define: >
+        let g:dbext_default_keep_in_result_buffer = 1 (default=0)
 <
  There are a few local buffer mapping created in the Results buffer:
     R       - Pressing 'R' calls the DBResultsRefresh command.  This will

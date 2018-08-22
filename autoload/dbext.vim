@@ -199,6 +199,7 @@ function! dbext#DB_buildLists()
     call add(s:config_params_mv, 'job_show_msgs')
     call add(s:config_params_mv, 'job_pipe_regex')
     call add(s:config_params_mv, 'job_quote_regex')
+    call add(s:config_params_mv, 'keep_in_result_buffer')
 
     " Script parameters
     let s:script_params_mv = []
@@ -889,6 +890,7 @@ function! s:DB_getDefault(name)
     elseif a:name ==# "buffer_lines"            |return (exists("g:dbext_default_buffer_lines")?g:dbext_default_buffer_lines.'':10)
     elseif a:name ==# "use_result_buffer"       |return (exists("g:dbext_default_use_result_buffer")?g:dbext_default_use_result_buffer.'':1)
     elseif a:name ==# "use_sep_result_buffer"   |return (exists("g:dbext_default_use_sep_result_buffer")?g:dbext_default_use_sep_result_buffer.'':0)
+    elseif a:name ==# "keep_in_result_buffer"   |return (exists("g:dbext_default_keep_in_result_buffer")?g:dbext_default_keep_in_result_buffer.'':0)
     elseif a:name ==# "display_cmd_line"        |return (exists("g:dbext_default_display_cmd_line")?g:dbext_default_display_cmd_line.'':0)
     elseif a:name ==# "prompt_for_parameters"   |return (exists("g:dbext_default_prompt_for_parameters")?g:dbext_default_prompt_for_parameters.'':1)
     elseif a:name ==# "query_statements"        |return (exists("g:dbext_default_query_statements")?g:dbext_default_query_statements.'':'select,update,delete,insert,create,grant,alter,call,exec,merge,with')
@@ -7105,7 +7107,12 @@ function! s:DB_runCmd(cmd, sql, result)
         endif
 
         " Return to original window
-        exec s:dbext_prev_winnr."wincmd w"
+        if !s:DB_get('keep_in_result_buffer')
+            exec s:dbext_prev_winnr."wincmd w"
+        else
+            let res_buf_name   = s:DB_resBufName()
+            call s:DB_switchToBuffer(res_buf_name, res_buf_name, 'result_bufnr')
+        endif
 
         return result
     else
@@ -7208,7 +7215,9 @@ function! s:DB_runCmdJobSupport(binary, args, sql, result)
     endif
 
     " Return to original window
-    exec s:dbext_prev_winnr."wincmd w"
+    if !s:DB_get('keep_in_result_buffer')
+        exec s:dbext_prev_winnr."wincmd w"
+    endif
 
     "echomsg "DB_runCmdJobSupport: " . cmd
     let s:dbext_job = job_start(cmd, l:options)
@@ -7405,7 +7414,12 @@ function! s:DB_runCmdJobFinish(channel)
         endif
 
         " Return to original window
-        exec s:dbext_prev_winnr."wincmd w"
+        if !s:DB_get('keep_in_result_buffer')
+            exec s:dbext_prev_winnr."wincmd w"
+        else
+            let res_buf_name   = s:DB_resBufName()
+            call s:DB_switchToBuffer(res_buf_name, res_buf_name, 'result_bufnr')
+        endif
     endif
 
     return
@@ -7873,7 +7887,7 @@ function! s:DB_addToResultBuffer(output, do_clear)
     " Store the line count of the result buffer
     let s:dbext_result_count = line('$')
 
-    if exists('s:dbext_prev_winnr')
+    if exists('s:dbext_prev_winnr') "&& !s:DB_get('keep_in_result_buffer')
         " Return to original window
         " exec cur_winnr."wincmd w"
         exec s:dbext_prev_winnr."wincmd w"

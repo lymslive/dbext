@@ -148,3 +148,5 @@ load later, just used as before, since the plugin name is still called
 
 * add support utf8 character(汉字) within `dbext_dbi`
 * fix cpp/c filetype, support printf style SQL statement in such source code.
+* add option `MYSQL_desc_table_full` that desc table with comment
+* add option `keep_in_result_buffer` usefull to view long result
