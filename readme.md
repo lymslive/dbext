@@ -144,9 +144,15 @@ After plugin is load successfully, no matter when starting vim or dynamically
 load later, just used as before, since the plugin name is still called
 `dbext`, as well as function names and command names.
 
+## Extra features
+
+* using special configed vim as inner $EDITOR in mysql shell (`\e`).
+  See [visql.vim](vimrc/visql.vim). Only mysql tested.
+
 ## Other patch or fixes
 
 * add support utf8 character(汉字) within `dbext_dbi`
 * fix cpp/c filetype, support printf style SQL statement in such source code.
 * add option `MYSQL_desc_table_full` that desc table with comment
 * add option `keep_in_result_buffer` usefull to view long result
+* set Result buffer as nofile and hide

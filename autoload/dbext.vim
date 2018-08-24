@@ -7882,6 +7882,8 @@ function! s:DB_addToResultBuffer(output, do_clear)
     setlocal nowrap
     setlocal noswapfile
     setlocal nonumber
+    setlocal buftype=nofile
+    setlocal bufhidden=hide
     " Go to top of output
     norm gg
     " Store the line count of the result buffer
